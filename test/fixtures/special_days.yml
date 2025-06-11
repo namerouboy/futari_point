@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  point_card_id: one
+  date: 2025-06-11
+  multiplier: 1
+
+two:
+  point_card_id: two
+  date: 2025-06-11
+  multiplier: 1

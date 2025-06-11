@@ -1,14 +1,53 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get "settings/index"
+  get "menus/index"
+  get "notifications/index"
+  get "notifications/show"
+  get "point_cards/index"
+  get "point_cards/new"
+  get "point_cards/show"
+  get "point_cards/settings"
+  get "home/index"
+  root "home#index"
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # deviseのルーティング
+  devise_for :users
+
+  # Railsのヘルスチェック用ルート
+  # アプリが生きているかどうかを外部ツールが確認するために使う。
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # 所有しているポイントカードのidを指定して呼び出す
+  resources :point_cards do
+    member do
+      patch :set_default # このポイントカードをログイン中ユーザーのデフォルトカードに設定←？
+      get :settings # ポイントカード固有の設定画面
+      post :generate_pin # PINコード発行
+      post :receive_by_pin # PINコード入力
+    end
+  end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # 通知画面
+  resources :notifications, only: [:index, :show]
+
+  # 個人設定画面
+  resource :settings
+
+  get "menu", to: "menus#index"
+
+  ###############################################################
+  # 各画面の目的と対応アクション
+  #
+  # ・トップページ　　　　　：　home#index　　　：デフォルトポイントカード表示
+  # ・ハンバーガーメニュー　：　menus#index　　　：ログアウト、通知、カード切り替え
+  # ・pc一覧/切り替え　　　：　point_cards#index：一覧＋切り替えボタン
+  # ・カード追加　　　　　　：　point_cards#new　：PIN入力＆生成
+  # ・カード詳細　　　　　　：　point_cards#show　：通知詳細/カード一覧から遷移
+  # ・カード設定　　　　　　：　point_cards#settings：倍デー、ごほうびメッセージ設定
+  # ・通知一覧画面　　　　　：　notifications#index　：　ご褒美通知
+  # ・通知詳細　　　　　　　：　notifications#show　　：　通知クリックで遷移
+  # ・個人設定　　　　　　　：　settings#index　　　　：　登録情報変更画面へ遷移
+  #
+  ###############################################################
+
 end
