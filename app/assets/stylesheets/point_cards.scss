@@ -1,0 +1,96 @@
+/* STAMPボタン */
+.stamp-button {
+  background-color: $main-bg-color;
+  color: $main-accent;
+  width: 100px;         // 正円の直径
+  height: 100px;
+  border-radius: 50%;   // 丸くする
+  border-width: 3px;
+  border-color: $main-accent;
+  border-style: solid;
+  display: flex;
+  align-items: center;  // 縦方向中央揃え
+  justify-content: center; // 横方向中央揃え
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+/* 割引シール */
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: $main-accent;
+  border-radius: 50%;
+  position: relative;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  background-color: $main-bg-color;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.rotate-0 { transform: rotate(0deg); }
+.rotate-15 { transform: rotate(15deg); }
+.rotate-30 { transform: rotate(30deg); }
+.rotate-45 { transform: rotate(45deg); }
+.rotate-60 { transform: rotate(60deg); }
+.rotate-75 { transform: rotate(75deg); }
+
+.text, .text2 {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.text {
+  position: absolute;
+  top: 20px;
+  color: $text-main;
+  font-size: 20px;
+}
+
+.text2 {
+  position: absolute;
+  top: 40px;
+  color: $main-accent;
+  font: normal bold 22px Arial, sans-serif;
+}
+
+
+/* 台紙のグリッド */
+.stamp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4列
+  grid-template-rows: repeat(5, 1fr);    // 5行
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.stamp {
+  width: 100%;
+  padding-top: 100%; // 正方形にする
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 20%; // 角丸
+  position: relative;
+}
+
+.stamp.filled {
+  background-color: #EE817B;
+  border-color: #d66;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* おはなボタン */
+
+
+
+/* ハンバーガーメニュー */

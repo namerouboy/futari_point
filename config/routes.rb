@@ -1,14 +1,5 @@
 Rails.application.routes.draw do
-  get "settings/index"
-  get "menus/index"
-  get "notifications/index"
-  get "notifications/show"
-  get "point_cards/index"
-  get "point_cards/new"
-  get "point_cards/show"
-  get "point_cards/settings"
-  get "home/index"
-  root "home#index"
+  root "point_cards#show"
 
   # deviseのルーティング
   devise_for :users

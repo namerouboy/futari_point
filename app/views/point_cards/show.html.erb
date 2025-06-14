@@ -1,2 +1,83 @@
-<h1>PointCards#show</h1>
-<p>Find me in app/views/point_cards/show.html.erb</p>
+<body>
+  <div class="container py-4">
+
+    <!-- ナビゲーション -->
+    <nav class="navbar navbar-light bg-transparent border-0 position-absolute top-0 end-0 m-3">
+      <div class="container-fluid">
+
+      <!-- ハンバーガーアイコン -->
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainMenu"
+        aria-controls="mainMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- メニュー本体 -->
+      <div class="collapse navbar-collapse flex-column text-center" id="mainMenu">
+        <ul class="navbar-nav w-100 gap-2 py-3">
+
+          <li class="nav-item">
+            <%= link_to "通知を見る", notifications_path, class: "nav-link fw-semibold" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "カード切り替え", point_cards_path, class: "nav-link fw-semibold" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "ログアウト", destroy_user_session_path,
+                      data: { turbo_method: :delete },
+                      class: "nav-link text-danger" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SpecialDayバッジとタイトルとメッセージ -->
+  <div class="title-with-badge d-flex align-items-center justify-content-center mb-4 pe-5">
+    <% num = 1 %>
+    <% if num == 1 %>
+      <div class="wrapper me-3">
+        <div class="circle">
+          <div class="square rotate-0"></div>
+          <div class="square rotate-15"></div>
+          <div class="square rotate-30"></div>
+          <div class="square rotate-45"></div>
+          <div class="square rotate-60"></div>
+          <div class="square rotate-75"></div>
+          <div class="text">本日</div>
+          <div class="text2">5倍</div>
+        </div>
+      </div>
+    <% end %>
+
+    <div>
+      <h1 class="text-center flex-grow-1">かえでのポイントカード</h1>
+      <p class="text-center">ごはんをいっぱいたべましょう</p>
+    </div>
+  </div>
+
+  <!-- ポイントカード本体 -->
+  <div class="card text-center my-4">
+    <p>5 / 20枚め</p>
+
+    <div class="stamp-grid">
+      <% 20.times do |i| %>
+        <div class="stamp <%= "filled" if i < 10 %>"></div>
+      <% end %>
+    </div>
+    
+    <div class="card-body d-flex justify-content-center">
+      <%= button_tag "STAMP", type: "submit", class: "stamp-button" %>
+    </div>
+
+
+
+  </div>
+</body>

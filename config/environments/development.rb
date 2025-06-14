@@ -73,4 +73,9 @@ Rails.application.configure do
   #deviseからのメールの送信先(パスワードリセットとかメール認証とか)
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  # アセットをその場でコンパイルして OK にする
+  config.assets.compile = true      # ← false だと毎回 precompile が必要
+  config.assets.debug   = true      # 展開して読み込む（キャッシュしない）
+  config.assets.quiet   = true      # コンソールを静かに。好みで
+
 end
