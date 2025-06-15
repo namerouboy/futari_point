@@ -67,17 +67,29 @@
   <div class="card text-center my-4">
     <p>5 / 20枚め</p>
 
+    <!-- スタンプ台紙 -->
     <div class="stamp-grid">
       <% 20.times do |i| %>
-        <div class="stamp <%= "filled" if i < 10 %>"></div>
+        <% if i < 10 %> <!-- スタンプあり -->
+          <div class="stamp filled">
+            <%= image_tag "/お気に入り、オススメに使える星アイコン。.png", alt: "スタンプ", class: "stamp-image" %>
+          </div>
+        <% else %> <!-- スタンプなし -->
+          <div class="stamp"></div>
+        <% end %>
       <% end %>
     </div>
     
-    <div class="card-body d-flex justify-content-center">
-      <%= button_tag "STAMP", type: "submit", class: "stamp-button" %>
-    </div>
+  <!-- スタンプ & 葉っぱボタンをまとめるブロック -->
+  <div class="card-body d-flex justify-content-center gap-4">
 
+    <%= button_tag "STAMP", type: "submit", class: "stamp-button" %>
 
+    <%= button_tag class: "leaf-btn border-0 bg-transparent p-0" do %>
+      <%= image_tag "/葉っぱのフリー素材.png", alt: "設定へ", width: 70 %>
+    <% end %>
+
+  </div>
 
   </div>
 </body>

@@ -16,6 +16,10 @@
   padding: 0;
 }
 
+.stamp-button:hover {
+  transform: scale(1.05) rotate(-3deg);
+}
+
 /* 割引シール */
 .circle {
   width: 100px;
@@ -66,8 +70,8 @@
 /* 台紙のグリッド */
 .stamp-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); // 4列
-  grid-template-rows: repeat(5, 1fr);    // 5行
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   gap: 0.5rem;
   width: 100%;
   max-width: 300px;
@@ -76,21 +80,41 @@
 
 .stamp {
   width: 100%;
-  padding-top: 100%; // 正方形にする
+  padding-top: 100%;
   background-color: white;
   border: 2px solid #ccc;
-  border-radius: 20%; // 角丸
+  border-radius: 20%;
   position: relative;
+  overflow: hidden; 
 }
 
-.stamp.filled {
-  background-color: #EE817B;
-  border-color: #d66;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+.stamp-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
 }
 
-/* おはなボタン */
+// .stamp.filled {
+//   background-color: #EE817B;
+//   border-color: #d66;
+//   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+// }
 
+/* はっぱボタン */
+.leaf-btn img {
+  transition: transform .2s ease;
+}
+.leaf-btn:hover img {
+  transform: scale(1.05) rotate(-3deg);
+}
 
 
 /* ハンバーガーメニュー */
+#mainMenu {
+  z-index: 1050;
+  background: $main-bg-color;
+}
