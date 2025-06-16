@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "point_cards#show"
+  root "point_cards#home"
 
   # deviseのルーティング
   devise_for :users
@@ -14,7 +14,12 @@ Rails.application.routes.draw do
       patch :set_default # このポイントカードをログイン中ユーザーのデフォルトカードに設定←？
       get :settings # ポイントカード固有の設定画面
       post :generate_pin # PINコード発行
+      get :issued
       post :receive_by_pin # PINコード入力
+    end
+
+    collection do                # ← 一覧全体に対する操作（開発用）
+      get :settings              # /point_cards/settings
     end
   end
 

@@ -1,0 +1,2 @@
+・routeの下記の記述を削除
+collection { get :settings }    # ← 開発中だけ。あとで消す！

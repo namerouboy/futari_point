@@ -1,2 +1,68 @@
-<h1>PointCards#settings</h1>
-<p>Find me in app/views/point_cards/settings.html.erb</p>
+<body>
+  <div class="container py-4">
+
+  <h2 class="text-center mb-4"> <%= @card.title %> </h2>
+
+<!-- Special Day 設定（そのまま） -->
+<% @card.special_days.each_with_index do |special_day, i| %>
+  <div class="mb-5">
+    <h5 class="text-muted">Special Day <%= i + 1 %></h5>
+
+    <div class="mb-3">
+      <label class="form-label">日</label>
+      <input type="number"
+             name="special_day[day][]"
+             class="form-control"
+             min="1" max="31"
+             placeholder="例：12"
+             value="<%= special_day.date %>">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">倍</label>
+      <input type="number"
+             name="special_day[multiplier][]"
+             class="form-control"
+             min="2" value="例：5"
+             value="<%= special_day.multiplier %>">
+    </div>
+  </div>
+<% end %>
+
+<!-- ごほうび 設定 -->
+<% @card.rewards.each_with_index do |reward, i| %>
+  <div class="mb-4">
+    <h5 class="text-muted">ごほうび <%= i + 1 %></h5>
+
+    <div class="mb-3">
+      <label class="form-label">ポイント</label>
+      <input type="number"
+             name="reward[required_points][]"
+             class="form-control"
+             min="1" value="5"
+             value="<%= reward.required_points %>">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">メッセージ</label>
+      <input type="text"
+             name="reward[message][]"
+             class="form-control"
+             value="<%= reward.message %>"
+             placeholder="例：おやつ獲得！">
+    </div>
+  </div>
+<% end %>
+
+<div class="text-center my-4">
+  <button type="button" class="btn btn-primary px-5">保存する</button>
+</div>
+
+<div class="text-center my-4">
+  <button type="button" class="btn btn-primary usupinkbtn px-5">戻る　　</button>
+</div>
+
+</div>
+
+
+</body>

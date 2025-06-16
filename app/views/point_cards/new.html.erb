@@ -1,2 +1,53 @@
-<h1>PointCards#new</h1>
-<p>Find me in app/views/point_cards/new.html.erb</p>
+<div class="container py-4">
+
+  <h2 class="text-center mb-4">カード追加</h2>
+
+  <!-- ① PIN で受け取るフォーム -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body">
+      <h5 class="card-title mb-3">PIN でカードを受け取る</h5>
+
+      <%= form_with url: point_cards_path, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :pin_code, "PIN コード", class: "form-label" %>
+          <%= f.text_field :pin_code, class: "form-control", required: true %>
+        </div>
+
+        <% if flash[:alert] %>
+          <div class="alert alert-danger">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+      
+        <%= f.submit "PIN で受け取る", class: "btn btn-primary pill-btn px-4" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- ② 自分用カードを新規作成 -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-3">新しいカードを作成する</h5>
+
+      <%= form_with url: point_cards_path,
+              scope: :point_card, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :title, "カードタイトル", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "例：かえでのカード", required: true %>
+
+          <%= f.label :message, "メッセージ", class: "form-label" %>
+          <%= f.text_field :message, class: "form-control", placeholder: "例：お手伝いをたくさんします！", required: true %>
+
+        </div>
+
+        <%= f.submit "新しいカードを作る", class: "btn btn-primary usupinkbtn px-4" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 戻るリンク -->
+  <div class="text-center mt-4">
+    <%= link_to "一覧へ戻る", point_cards_path, class: "btn btn-primary" %>
+  </div>
+
+</div>

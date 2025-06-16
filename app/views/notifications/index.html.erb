@@ -1,2 +1,16 @@
-<h1>Notifications#index</h1>
-<p>Find me in app/views/notifications/index.html.erb</p>
+<div class="container py-4">
+  <h2 class="text-center mb-4">通知</h2>
+
+  <ul class="list-group">
+    <% @notifications.each do |notification| %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to notification.title, notification_path(notification.id), class: "text-decoration-none" %>
+        <small class="text-muted"><%= notification.created_at.strftime("%-m/%-d") %></small>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="text-center mt-4">
+    <%= link_to "ポイントカードに戻る", root_path, class: "btn btn-primary" %>
+  </div>
+</div>

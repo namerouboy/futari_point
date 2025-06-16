@@ -27,7 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_11_124111) do
 
   create_table "point_cards", force: :cascade do |t|
     t.bigint "giver_id", null: false
-    t.bigint "receiver_id", null: false
+    t.bigint "receiver_id"
     t.string "title", null: false
     t.text "message"
     t.string "pin_code"
