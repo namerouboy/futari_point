@@ -47,7 +47,11 @@
 
   <!-- 戻るリンク -->
   <div class="text-center mt-4">
-    <%= link_to "一覧へ戻る", point_cards_path, class: "btn btn-primary" %>
+    <%= link_to "カード一覧", point_cards_path, class: "btn btn-primary" %>
+  </div>
+  
+  <div class="text-center mt-4">
+    <%= link_to "戻る", request.referer || root_path, class: "btn btn-primary usupinkbtn px-5" %>
   </div>
 
 </div>

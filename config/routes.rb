@@ -19,10 +19,6 @@ Rails.application.routes.draw do
       post :receive_by_pin # PINコード入力
       post :add_stamp # スタンプ押下
     end
-
-    collection do                # ← 一覧全体に対する操作（開発用）
-      get :settings              # /point_cards/settings
-    end
   end
 
   # 通知画面
