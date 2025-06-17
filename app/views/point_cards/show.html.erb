@@ -46,8 +46,7 @@
 
   <!-- SpecialDayバッジとタイトルとメッセージ -->
   <div class="title-with-badge d-flex align-items-center justify-content-center mb-4 pe-5">
-    <% num = 1 %>
-    <% if num == 1 %>
+    <% if (sd = @card.special_days.find_by(date: Date.current.day)) %>
       <div class="wrapper me-3">
         <div class="circle">
           <div class="square rotate-0"></div>
@@ -57,7 +56,7 @@
           <div class="square rotate-60"></div>
           <div class="square rotate-75"></div>
           <div class="text">本日</div>
-          <div class="text2">5倍</div>
+          <div class="text2"><%= sd.multiplier %>倍</div>
         </div>
       </div>
     <% end %>
@@ -70,31 +69,19 @@
 
   <!-- ポイントカード本体 -->
   <div class="card text-center my-4">
-    <p>5 / 20枚め</p>
+  <%= render "point_cards/stamp_board", card: @card %>
 
-    <!-- スタンプ台紙 -->
-    <div class="stamp-grid">
-      <% 20.times do |i| %>
-        <% if i < 10 %> <!-- スタンプあり -->
-          <div class="stamp filled">
-            <%= image_tag "/お気に入り、オススメに使える星アイコン。.png", alt: "スタンプ", class: "stamp-image" %>
-          </div>
-        <% else %> <!-- スタンプなし -->
-          <div class="stamp"></div>
-        <% end %>
-      <% end %>
-    </div>
-    
-  <!-- スタンプ & 葉っぱボタンをまとめるブロック -->
   <div class="card-body d-flex justify-content-center gap-4">
+    <%= button_to "STAMP",
+          add_stamp_point_card_path(@card),
+          method: :post,
+          form: { data: { turbo_stream: true } },
+          class: "stamp-button" %>
 
-    <%= button_tag "STAMP", type: "submit", class: "stamp-button" %>
-
-    <%= link_to settings_point_card_path(@card), class: "leaf-btn border-0 bg-transparent p-0" do %>
+    <%= link_to settings_point_card_path(@card),
+          class: "leaf-btn border-0 bg-transparent p-0" do %>
       <%= image_tag "/葉っぱのフリー素材.png", alt: "設定へ", width: 70 %>
     <% end %>
-
   </div>
-
-  </div>
+</div>
 </body>

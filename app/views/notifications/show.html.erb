@@ -1,12 +1,15 @@
 <div class="container py-4">
 
   <!-- タイトル -->
-  <h2 class="text-center mb-4"><%= @notification.title %></h2>
+  <h2 class="text-center mb-4"><%= @notification.content %></h2>
 
   <!-- 本文 -->
   <div class="card shadow-sm mb-4">
     <div class="card-body">
-      <p class="mb-0"><%= @notification.body %></p>
+      <p class="mb-0"><%= @card.title %>で目標を達成しました！</p>
+      <p class="mb-0"><%= @notification.content %></p>
+      <p class="mb-0">ごほうびをもらいに行きましょう！</p>
+    </div>
     </div>
   </div>
 

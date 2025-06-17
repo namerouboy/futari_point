@@ -13,9 +13,11 @@ Rails.application.routes.draw do
     member do
       patch :set_default # このポイントカードをログイン中ユーザーのデフォルトカードに設定←？
       get :settings # ポイントカード固有の設定画面
+      patch :settings, action: :update_settings # 設定
       post :generate_pin # PINコード発行
-      get :issued
+      get :issued # PINコード表示
       post :receive_by_pin # PINコード入力
+      post :add_stamp # スタンプ押下
     end
 
     collection do                # ← 一覧全体に対する操作（開発用）

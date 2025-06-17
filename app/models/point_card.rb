@@ -10,12 +10,12 @@ class PointCard < ApplicationRecord
   has_many :rewards, dependent: :destroy
 
   accepts_nested_attributes_for :special_days,
-                                allow_destroy: true,
-                                reject_if: ->(att) { att['day'].blank? || att['multiplier'].blank? }
+    allow_destroy: true,
+    reject_if: ->(attr) { attr['date'].blank? }
 
   accepts_nested_attributes_for :rewards,
-                                allow_destroy: true,
-                                reject_if: ->(att) { att['required_points'].blank? || att['message'].blank? }
+    allow_destroy: true,
+    reject_if: ->(attr) { attr['required_points'].blank? || attr['message'].blank? || attr['name'].blank? }
 
   validates :title, presence: true
   validates :max_point, numericality: { greater_than: 0 }
@@ -23,6 +23,15 @@ class PointCard < ApplicationRecord
 
   def current_points
     point_records.sum(:points)
+  end
+
+  def stamp!(multiplier = 1)
+    self.point_records.create!(points: multiplier)
+
+    if current_points >= max_point
+      increment!(:current_round)
+      point_records.destroy_all
+    end
   end
 
   private

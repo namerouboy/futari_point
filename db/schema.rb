@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_11_124111) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_034644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,7 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_11_124111) do
 
   create_table "special_days", force: :cascade do |t|
     t.bigint "point_card_id", null: false
-    t.date "date", null: false
+    t.integer "date", null: false
     t.integer "multiplier", default: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

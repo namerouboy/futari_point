@@ -1,7 +1,7 @@
 class PointCardsController < ApplicationController
   # raise "FILE HAS BEEN LOADED"
-  before_action :authenticate_user!, only: [:show, :index, :settings, :new, :create]
-  before_action :set_card, only: [:show]
+  before_action :authenticate_user!, only: [:home, :show, :index, :settings, :new, :create]
+  before_action :set_card, only: [:show, :settings, :update_settings] 
 
   # ホーム画面
   def home
@@ -23,7 +23,24 @@ class PointCardsController < ApplicationController
         redirect_to new_point_card_path,
                   alert: "まだカードがありません。まずは PIN を受け取るか新規作成してください。"
       end
+  end
 
+  # スタンプ押下
+  def add_stamp
+    @card = current_user.received_point_cards.find(params[:id])
+    sd = @card.special_days.find_by(date: Date.current.day)
+
+    @card.point_records.create!(added_by_user: current_user, points: sd ? sd.multiplier : 1)
+
+    if @card.current_points % 20 == 0 && @card.current_points != 0
+      new_round = @card.current_points / 20
+      @card.update!(current_round: new_round)
+    end
+
+    respond_to do |format|
+      format.turbo_stream   # add_stamp.turbo_stream.erb を探す
+      format.html { redirect_to point_card_path(@card) }
+    end
   end
 
   # カード一覧
@@ -38,8 +55,25 @@ class PointCardsController < ApplicationController
 
   # カード設定画面
   def settings
-    @card = PointCard.find_by(id: params[:id], receiver_id: current_user.id)
+    build_missing_children
   end
+
+  def settings_params          # ← メソッド名は settings_params でも可。必ず update_settings で呼ぶ
+  params.require(:point_card).permit(
+    # point_cards テーブルの直接の属性があればここに :title などを書く
+    special_days_attributes:  [:id, :date, :multiplier, :_destroy],
+    rewards_attributes:       [:id, :required_points, :name, :message, :_destroy]
+  )
+end
+
+def update_settings
+  if @card.update(settings_params)   # ← ここで必ずこのメソッドを呼ぶ
+    redirect_to settings_point_card_path(@card), notice: "保存しました"
+  else
+    build_missing_children             # 失敗したら空行を補充
+    render :settings, status: :unprocessable_entity
+  end
+end
 
   # カード作成
   def new
@@ -94,6 +128,18 @@ class PointCardsController < ApplicationController
   def set_card
     @card = current_user.received_point_cards.find_by!(id: params[:id])
     # ここで 404 が起きれば Rails が自動で 404 ページを返す
+  end
+
+  def settings_params
+    params.require(:point_card).permit(
+      special_days_attributes:  %i[id date multiplier _destroy],
+      rewards_attributes:       %i[id required_points name message _destroy]
+    )
+  end
+
+  def build_missing_children
+    (3 - @card.special_days.size).times { @card.special_days.build }
+    (3 - @card.rewards.size).times      { @card.rewards.build     }
   end
 
 end

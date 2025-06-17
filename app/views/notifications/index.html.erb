@@ -3,9 +3,21 @@
 
   <ul class="list-group">
     <% @notifications.each do |notification| %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <%= link_to notification.title, notification_path(notification.id), class: "text-decoration-none" %>
-        <small class="text-muted"><%= notification.created_at.strftime("%-m/%-d") %></small>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- 通知内容（可変幅、1行に制限） -->
+          <div class="flex-grow-1 text-truncate">
+            <%= link_to notification.content, notification_path(notification), class: "text-decoration-none text-dark" %>
+          </div>
+
+          <!-- 投稿日 -->
+          <small class="text-muted text-nowrap ms-2"><%= notification.created_at.strftime("%-m/%-d") %></small>
+
+          <!-- newバッジ -->
+          <% if !notification.read %>
+            <span class="badge bg-danger ms-2">new</span>
+          <% end %>
+        </div>
       </li>
     <% end %>
   </ul>
