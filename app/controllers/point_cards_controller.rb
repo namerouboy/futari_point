@@ -51,6 +51,8 @@ class PointCardsController < ApplicationController
   # カード表示
   def show
     @card = current_user.received_point_cards.find(params[:id])
+    @card_full = @card.full?
+    @card_reward = @card.reached_reward
   end
 
   # カード設定画面
@@ -58,13 +60,12 @@ class PointCardsController < ApplicationController
     build_missing_children
   end
 
-  def settings_params          # ← メソッド名は settings_params でも可。必ず update_settings で呼ぶ
-  params.require(:point_card).permit(
-    # point_cards テーブルの直接の属性があればここに :title などを書く
-    special_days_attributes:  [:id, :date, :multiplier, :_destroy],
-    rewards_attributes:       [:id, :required_points, :name, :message, :_destroy]
-  )
-end
+  def settings_params
+    params.require(:point_card).permit(
+      special_days_attributes:  [:id, :date, :multiplier, :_destroy],
+      rewards_attributes:       [:id, :required_points, :name, :message, :_destroy]
+    )
+  end
 
 def update_settings
   if @card.update(settings_params)   # ← ここで必ずこのメソッドを呼ぶ
