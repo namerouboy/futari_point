@@ -2,18 +2,6 @@
 
   <div class="container py-4">
 
-    <% if @card_full %>
-      <div class="alert alert-success text-center">
-        🎉 おめでとう！ポイントカードが満タンになりました 🎉
-      </div>
-    <% end %>
-
-    <% if @card_reward != nil %>
-      <div class="alert alert-success text-center">
-        🎉<%= @card_reward.required_points %> ポイント達成！カードの持ち主にご褒美を贈呈しよう！ 🎉
-      </div>
-    <% end %>
-
     <!-- ナビゲーション -->
     <nav class="navbar navbar-light bg-transparent border-0 position-absolute top-0 end-0 m-3">
       <div class="container-fluid">

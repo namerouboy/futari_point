@@ -1,4 +1,35 @@
 <div class="container py-4">
+
+<!-- ナビゲーション -->
+    <nav class="navbar navbar-light bg-transparent border-0 position-absolute top-0 end-0 m-3">
+      <div class="container-fluid">
+
+      <!-- ハンバーガーアイコン -->
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainMenu"
+        aria-controls="mainMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- メニュー本体 -->
+      <div class="collapse navbar-collapse flex-column text-center" id="mainMenu">
+        <ul class="navbar-nav w-100 gap-2 py-3">
+
+          <li class="nav-item">
+            <%= link_to "ログアウト", destroy_user_session_path,
+                      method: :delete,
+                      class: "nav-link text-danger" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <h2 class="text-center mb-4">ポイントカード一覧</h2>
 
   <div class="row row-cols-1 row-cols-md-2 g-4">

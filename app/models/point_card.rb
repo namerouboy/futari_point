@@ -27,16 +27,6 @@ class PointCard < ApplicationRecord
     point_records.sum(:points)
   end
 
-  #スタンプ押下時
-  def stamp!(multiplier = 1)
-    self.point_records.create!(points: multiplier)
-
-    if current_points >= max_point
-      increment!(:current_round)
-      point_records.destroy_all
-    end
-  end
-
   #スタンプ満タンかどうかのチェック
   def full?
     current_points % 20 == 0 && current_points != 0

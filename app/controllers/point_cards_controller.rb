@@ -32,7 +32,7 @@ class PointCardsController < ApplicationController
 
     @card.point_records.create!(added_by_user: current_user, points: sd ? sd.multiplier : 1)
 
-    if @card.current_points % 20 == 0 && @card.current_points != 0
+    if @card.current_round * 20 <= @card.current_points
       new_round = @card.current_points / 20
       @card.update!(current_round: new_round)
     end
@@ -51,8 +51,6 @@ class PointCardsController < ApplicationController
   # カード表示
   def show
     @card = current_user.received_point_cards.find(params[:id])
-    @card_full = @card.full?
-    @card_reward = @card.reached_reward
   end
 
   # カード設定画面
