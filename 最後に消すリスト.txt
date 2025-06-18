@@ -1,5 +1,0 @@
-・routeの下記の記述を削除
-collection { get :settings }    # ← 開発中だけ。あとで消す！
-
-・SpecialDaysテーブル
-カラムの型変更してるので統合する
