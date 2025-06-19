@@ -14,3 +14,11 @@ development:
 test:
   <<: *default
   database: futari_point_test
+
+production:
+  primary:
+    url: <%= ENV["DATABASE_URL"] %>
+    sslmode: require      # Render Postgres は TLS 必須
+  cable:                  # ★ 追加
+    url: <%= ENV["DATABASE_URL"] %>
+    sslmode: require
