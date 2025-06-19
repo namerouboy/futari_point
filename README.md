@@ -1,5 +1,5 @@
 # サービスのURL
-後で記載
+[ふたりポイントカード](https://futari-point.onrender.com/users/sign_in)
 
 <br>
 
