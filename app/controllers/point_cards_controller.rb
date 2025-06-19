@@ -30,8 +30,10 @@ class PointCardsController < ApplicationController
     @card = current_user.received_point_cards.find(params[:id])
     sd = @card.special_days.find_by(date: Date.current.day)
 
+    # 倍デーなら倍ポイント、倍デーじゃないなら1ポイント追加
     @card.point_records.create!(added_by_user: current_user, points: sd ? sd.multiplier : 1)
 
+    # 現在の周回×20が現在の合計ポイントより少ないなら周回を更新
     if @card.current_round * 20 <= @card.current_points
       new_round = @card.current_points / 20
       @card.update!(current_round: new_round)

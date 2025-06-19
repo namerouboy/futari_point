@@ -18,8 +18,10 @@ RSpec.describe "PointCardSettings", type: :system do
   it "adds a reward row and saves" do
     login_as(receiver, scope: :user)
 
+    # カード設定画面に移動
     visit settings_point_card_path(card)
 
+    # ご褒美を入力して保存できることを確認
     all("input[placeholder='ポイント']").last.fill_in(with: 15)
     all("input[placeholder='ごほうび名']").last.fill_in(with: "スペシャルお菓子")
     all("input[placeholder='メッセージ']").last.fill_in(with: "よく頑張りました！")

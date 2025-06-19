@@ -58,20 +58,25 @@ RSpec.configure do |config|
   # FactoryBotのシンタックスシュガーを有効にする
   config.include FactoryBot::Syntax::Methods
 
-  # rspec-expectations config goes here. You can use an alternate assertion/expectation library if you prefer.
+  # rspecの設定
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
+  # モック/スタブ機能に RSpec 付属のメソッドを使う
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
 
+  # shared_context（共通処理や before フックをまとめたモジュール）につけた metadata を
+  # そのコンテキストを include した example group（describe / context ブロック）側にも伝搬させるかの指定。
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+  # 各 example ごとに DB トランザクションを張って、終わったらロールバック
+  # テストデータが毎回クリーンな状態に戻るので、次のテストに影響しない
   config.use_transactional_fixtures = true
 
-  # コントローラテストでDeviseのヘルパーを使用できるようにする
+  # コントローラ、request、systemのテストでDeviseのヘルパーを使用できるようにする
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system

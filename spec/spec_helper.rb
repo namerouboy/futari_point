@@ -1,6 +1,6 @@
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
-    # カスタムマッチャーの説明文にチェーンを含める（RSpec4ではtrueがデフォルト）
+    # カスタムマッチャーの説明文にチェーンを含める
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PointRecord, type: :model do
-  # let のスコープを describe ブロックの外側に移動し、必要に応じて使用する
   let(:point_card) { create(:point_card) }
   let(:giver) { point_card.giver }
   let!(:reward_10_points) { create(:reward, point_card: point_card, required_points: 10, message: "10ポイント達成！") }
@@ -17,7 +16,7 @@ RSpec.describe PointRecord, type: :model do
       it 'creates a notification when a reward is reached' do
         expect {
           create(:point_record, point_card: point_card, points: 10)
-        }.to change(Notification, :count).by(1) # 10点達成のごほうび通知のみ
+        }.to change(Notification, :count).by(1)
 
         notification = Notification.last
         expect(notification.user).to eq(giver)
