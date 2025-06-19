@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # アプリが生きているかどうかを外部ツールが確認するために使う。
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Renderのヘルスチェック用
+  get "/up", to: proc { [200, {"Content-Type"=>"text/plain"}, ["OK"]] }
+
   # 所有しているポイントカードのidを指定して呼び出す
   resources :point_cards do
     member do
