@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: one
+  point_card_id: one
+  content: MyString
+  read: false
+
+two:
+  user_id: two
+  point_card_id: two
+  content: MyString
+  read: false

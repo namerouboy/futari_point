@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "stamp_board_#{@card.id}" do %>
+  <p><%= "#{@card.current_round}枚め / 通算 #{@card.current_points}pt" %></p>
+
+  <div class="stamp-grid">
+    <% count = @card.current_points % 20 %>
+    <% 20.times do |i| %>
+      <% if i < count %>
+        <div class="stamp filled">
+          <%= image_tag "/星.png", alt: "スタンプ", class: "stamp-image" %>
+        </div>
+      <% else %>
+        <div class="stamp"></div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

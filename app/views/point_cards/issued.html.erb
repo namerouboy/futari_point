@@ -1,0 +1,13 @@
+
+<div class="container py-5 text-center">
+  <h2>カードが作成されました！</h2>
+  <p>この PIN コードを相手に教えてください：</p>
+
+  <div class="display-4 my-4 text-primary fw-bold">
+    <%= @card.pin_code %>
+  </div>
+
+  <p class="text-muted">※ この PIN はあとから確認できません</p>
+
+  <%= link_to "戻る", new_point_card_path, class: "btn btn-secondary mt-4" %>
+</div>

@@ -1,0 +1,83 @@
+<body>
+  <div class="container py-4">
+
+  <h2 class="text-center mb-4"> <%= @card.title %> </h2>
+
+<%= form_with model: @card,
+              url: settings_point_card_path(@card),
+              method: :patch,
+              local: true do |f| %>
+
+  <!-- SpecialDay 3 行 -->
+  <h4>Special Days</h4>
+  <%= f.fields_for :special_days do |sd| %>
+    <div class="row mb-3">
+      <div class="col">
+        <%= sd.number_field :date,
+              min: 1, max: 31,
+              class: "form-control",
+              placeholder: "日 (1〜31)" %>
+      </div>
+      <div class="col">
+        <%= sd.number_field :multiplier,
+              min: 2,
+              class: "form-control",
+              placeholder: "倍 (2〜)" %>
+      </div>
+      <div class="col-auto">
+      <div class="form-check">
+        <%= sd.check_box :_destroy, class: "form-check-input" %>
+        <%= sd.label :_destroy, "削除", class: "form-check-label" %>
+      </div>
+    </div>
+    </div>
+  <% end %>
+
+  <!-- Rewards 3 行 -->
+  <h4>ごほうび</h4>
+  <%= f.fields_for :rewards do |rw| %>
+    <div class="row mb-3">
+      <div class="col">
+        <%= rw.number_field :required_points,
+              min: 1,
+              class: "form-control",
+              placeholder: "ポイント" %>
+      </div>
+      <div class="col">
+        <%= rw.text_field :name,
+              class: "form-control",
+              placeholder: "ごほうび名" %>
+      </div>
+      <div class="col">
+        <%= rw.text_field :message,
+              class: "form-control",
+              placeholder: "メッセージ" %>
+      </div>
+      <div class="col-auto">
+      <div class="form-check">
+        <%= rw.check_box :_destroy, class: "form-check-input" %>
+        <%= rw.label :_destroy, "削除", class: "form-check-label" %>
+      </div>
+    </div>
+    </div>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <div class="notice notice-danger">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <div class="text-center my-4">
+    <%= f.submit "保存する", class: "btn btn-primary px-5" %>
+  </div>
+<% end %>
+
+<div class="text-center my-4">
+  <%= link_to "戻る", point_card_path(@card), class: "btn btn-primary usupinkbtn px-5" %>
+</div>
+
+</div>
+
+
+</body>

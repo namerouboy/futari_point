@@ -1,0 +1,114 @@
+/* STAMPボタン */
+.stamp-button {
+  background-color: $main-bg-color;
+  color: $main-accent;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-color: $main-accent;
+  border-style: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.stamp-button:hover {
+  transform: scale(1.05) rotate(-3deg);
+}
+
+/* 割引シール */
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: $main-accent;
+  border-radius: 50%;
+  position: relative;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  background-color: $main-bg-color;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.rotate-0 { transform: rotate(0deg); }
+.rotate-15 { transform: rotate(15deg); }
+.rotate-30 { transform: rotate(30deg); }
+.rotate-45 { transform: rotate(45deg); }
+.rotate-60 { transform: rotate(60deg); }
+.rotate-75 { transform: rotate(75deg); }
+
+.text, .text2 {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.text {
+  position: absolute;
+  top: 20px;
+  color: $text-main;
+  font-size: 20px;
+}
+
+.text2 {
+  position: absolute;
+  top: 40px;
+  color: $main-accent;
+  font: normal bold 22px Arial, sans-serif;
+}
+
+
+/* 台紙のグリッド */
+.stamp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.stamp {
+  width: 100%;
+  padding-top: 100%;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 20%;
+  position: relative;
+  overflow: hidden; 
+}
+
+.stamp-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+
+/* はっぱボタン */
+.leaf-btn img {
+  transition: transform .2s ease;
+}
+.leaf-btn:hover img {
+  transform: scale(1.05) rotate(-3deg);
+}
+
+
+/* ハンバーガーメニュー */
+#mainMenu {
+  z-index: 1050;
+  background: $main-bg-color;
+}

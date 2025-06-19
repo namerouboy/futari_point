@@ -1,0 +1,54 @@
+<div class="container py-4">
+
+<!-- ナビゲーション -->
+    <nav class="navbar navbar-light bg-transparent border-0 position-absolute top-0 end-0 m-3">
+      <div class="container-fluid">
+
+      <!-- ハンバーガーアイコン -->
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainMenu"
+        aria-controls="mainMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- メニュー本体 -->
+      <div class="collapse navbar-collapse flex-column text-center" id="mainMenu">
+        <ul class="navbar-nav w-100 gap-2 py-3">
+
+          <li class="nav-item">
+            <%= link_to "ログアウト", destroy_user_session_path,
+                      method: :delete,
+                      class: "nav-link text-danger" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <h2 class="text-center mb-4">ポイントカード一覧</h2>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @point_cards.each do |card| %>
+      <div class="col">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title"><%= card.title %></h5>
+            <p><%= card.message %></p>
+            <p><%= card.current_points %> ポイント</p>
+            <%= link_to "詳細を見る", point_card_path(card.id), class: "btn btn-outline-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-4">
+    <%= link_to "戻る", request.referer || root_path, class: "btn btn-primary usupinkbtn px-5" %>
+  </div>
+
+</div>

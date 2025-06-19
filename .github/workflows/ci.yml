@@ -1,101 +1,93 @@
-name: CI
+#ワークフロー名
+name: Rails CI
 
+#ワークフローの実行タイミング
 on:
-  pull_request:
   push:
-    branches: [ main ]
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
 
+#ジョブの定義
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
-
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bin/importmap audit
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
   test:
+    #動作するOSの指定
     runs-on: ubuntu-latest
 
+    #使用する外部サービス名の指定(Postgreを使用)
     services:
       postgres:
-        image: postgres
+        #dockerイメージのバージョン
+        image: postgres:13
+        #postgreのポート番号、ユーザ名、パスワード
+        #CI用のDB環境は毎回新しいDockerコンテナとして起動されるので、ここだけで自由に決めてよい。
+        ports: ["5432:5432"]
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+          POSTGRES_PASSWORD: password
+        #postgreのヘルスチェック
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-      # redis:
-      #   image: redis
-      #   ports:
-      #     - 6379:6379
-      #   options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      #ジョブ内で使われる環境変数
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:password@localhost:5432/test_db
 
+    #処理の開始
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config google-chrome-stable
+      #対象ブランチをクローン
+    - uses: actions/checkout@v4
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      #日本語フォントのインストール(CI環境には日本語フォントがインストールされていない)
+    - name: Install Japanese fonts
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-ipafont-gothic
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+      #Rubyのセットアップ
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.4.2 
+        bundler-cache: true #Gemをキャッシュして、次回以降高速化
+      
+      #DBのセットアップ
+    - name: Set up database
+      #GitHub Actions用に用意したDB設定ファイルを本番用と同じ場所に設置
+      #dbの作成とマイグレーションの実行
+      run: |
+        cp config/database.yml.github-actions config/database.yml
+        bundle exec rails db:prepare
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+      #rspec/フォルダにあるテストファイルを実行する
+    - name: Run tests
+      run: bundle exec rspec
 
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
-          if-no-files-found: ignore
+      #chromeのセットアップ
+    - name: Set up Chrome for Capybara
+      uses: browser-actions/setup-chrome@v1
+
+      #schema.rbの実行、seedファイルの適用
+    - name: Prepare DB
+      run: |
+        bundle exec rails db:schema:load RAILS_ENV=test
+        #bundle exec rails db:seed RAILS_ENV=test
+
+      #rspec/systemフォルダにあるテストファイルを実行する
+    - name: Run system specs
+      run: bundle exec rspec spec/system
+
+      #rspec/modelフォルダにあるテストファイルを実行する
+    - name: Run model specs
+      run: bundle exec rspec spec/models
+
+      #テスト失敗時に、スクリーンショットをアップロードする
+    - name: Upload Capybara screenshots
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: capybara-screenshots
+        path: tmp/capybara

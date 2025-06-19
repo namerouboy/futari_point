@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  point_card_id: one
+  added_by_user_id: one
+  points: 1
+
+two:
+  point_card_id: two
+  added_by_user_id: two
+  points: 1
