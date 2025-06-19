@@ -25,3 +25,6 @@ production:
   queue:
     url: <%= ENV["DATABASE_URL"] %>
     sslmode: require
+  cache:
+    url: <%= ENV["DATABASE_URL"] %>
+    sslmode: require
