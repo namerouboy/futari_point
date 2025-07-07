@@ -68,7 +68,7 @@ jobs:
 
       #chromeのセットアップ
     - name: Set up Chrome for Capybara
-      uses: browser-actions/setup-chrome@v1
+      uses: browser-actions/setup-chrome@v2
 
       #schema.rbの実行、seedファイルの適用
     - name: Prepare DB
