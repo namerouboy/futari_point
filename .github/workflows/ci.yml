@@ -40,7 +40,7 @@ jobs:
     #処理の開始
     steps:
       #対象ブランチをクローン
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
       #日本語フォントのインストール(CI環境には日本語フォントがインストールされていない)
     - name: Install Japanese fonts
